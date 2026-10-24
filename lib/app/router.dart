@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:prompt_vault/features/prompts/presentation/prompt_editor_screen.dart';
 import 'package:prompt_vault/features/prompts/presentation/library_screen.dart';
-import 'package:prompt_vault/features/prompts/presentation/runner_placeholder_screen.dart';
+import 'package:prompt_vault/features/prompts/presentation/prompt_runner_screen.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   return GoRouter(
@@ -24,7 +24,7 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/prompt/:id/run',
         builder: (context, state) {
           final id = state.pathParameters['id']!;
-          return RunnerPlaceholderScreen(promptId: id);
+          return PromptRunnerScreen(promptId: id);
         },
       ),
     ],

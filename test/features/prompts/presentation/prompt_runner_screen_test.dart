@@ -1,0 +1,67 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:prompt_vault/features/prompts/data/prompt_providers.dart';
+import 'package:prompt_vault/features/prompts/domain/prompt.dart';
+import 'package:prompt_vault/features/prompts/presentation/prompt_runner_screen.dart';
+
+void main() {
+  testWidgets('shows one field per detected variable', (tester) async {
+    final prompt = Prompt(
+      id: 'r1',
+      title: 'Blog post',
+      body: 'Write about {{topic}} in {{tone}} tone.',
+      createdAt: DateTime.utc(2026, 1, 1),
+      updatedAt: DateTime.utc(2026, 1, 1),
+    );
+
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          promptByIdProvider('r1').overrideWith((ref) async => prompt),
+        ],
+        child: MaterialApp(
+          home: PromptRunnerScreen(promptId: 'r1'),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Variables'), findsOneWidget);
+    expect(find.text('Topic'), findsOneWidget);
+    expect(find.text('Tone'), findsOneWidget);
+    expect(find.byType(TextField), findsNWidgets(2));
+  });
+
+  testWidgets('skips variable section when template has no placeholders', (
+    tester,
+  ) async {
+    final prompt = Prompt(
+      id: 'r2',
+      title: 'Plain',
+      body: 'No placeholders here.',
+      createdAt: DateTime.utc(2026, 1, 1),
+      updatedAt: DateTime.utc(2026, 1, 1),
+    );
+
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          promptByIdProvider('r2').overrideWith((ref) async => prompt),
+        ],
+        child: MaterialApp(
+          home: PromptRunnerScreen(promptId: 'r2'),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Variables'), findsNothing);
+    expect(find.byType(TextField), findsNothing);
+  });
+
+  test('humanizeVariableName splits underscores', () {
+    expect(humanizeVariableName('user_name'), 'User name');
+    expect(humanizeVariableName('topic'), 'Topic');
+  });
+}
