@@ -12,6 +12,21 @@ class _TestPromptListNotifier extends PromptListNotifier {
 
   @override
   Future<List<Prompt>> build() async => prompts;
+
+  @override
+  Future<List<Prompt>> search(String query) async {
+    final q = query.trim().toLowerCase();
+    if (q.isEmpty) {
+      return prompts;
+    }
+    return prompts
+        .where(
+          (p) =>
+              p.title.toLowerCase().contains(q) ||
+              p.body.toLowerCase().contains(q),
+        )
+        .toList();
+  }
 }
 
 void main() {
@@ -53,6 +68,45 @@ void main() {
 
     expect(find.text('My prompt'), findsOneWidget);
     expect(find.text('Body text here'), findsOneWidget);
+  });
+
+  testWidgets('search debounce filters visible prompt titles', (tester) async {
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          promptListProvider.overrideWith(
+            () => _TestPromptListNotifier([
+              Prompt(
+                id: '1',
+                title: 'Alpha prompt',
+                body: 'first',
+                createdAt: DateTime.utc(2026, 1, 1),
+                updatedAt: DateTime.utc(2026, 1, 1),
+              ),
+              Prompt(
+                id: '2',
+                title: 'Beta prompt',
+                body: 'second',
+                createdAt: DateTime.utc(2026, 1, 1),
+                updatedAt: DateTime.utc(2026, 1, 1),
+              ),
+            ]),
+          ),
+        ],
+        child: const MaterialApp(home: LibraryScreen()),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Alpha prompt'), findsOneWidget);
+    expect(find.text('Beta prompt'), findsOneWidget);
+
+    await tester.enterText(find.byType(SearchBar), 'alpha');
+    await tester.pump(const Duration(milliseconds: 300));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Alpha prompt'), findsOneWidget);
+    expect(find.text('Beta prompt'), findsNothing);
   });
 
   testWidgets('shows empty search results state', (tester) async {
