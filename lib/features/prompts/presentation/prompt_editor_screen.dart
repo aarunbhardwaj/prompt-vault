@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:prompt_vault/core/utils/prompt_template.dart';
 import 'package:prompt_vault/features/prompts/data/prompt_providers.dart';
 import 'package:prompt_vault/features/prompts/domain/prompt.dart';
 
@@ -161,6 +162,7 @@ class _PromptEditorScreenState extends ConsumerState<PromptEditorScreen> {
 
   Widget _buildScaffold(BuildContext context) {
     final title = widget.isEdit ? 'Edit prompt' : 'New prompt';
+    final variables = extractVariables(_bodyController.text);
 
     return PopScope(
       canPop: false,
@@ -206,11 +208,35 @@ class _PromptEditorScreenState extends ConsumerState<PromptEditorScreen> {
               maxLines: null,
               keyboardType: TextInputType.multiline,
               onChanged: (_) {
-                if (_bodyError != null) {
-                  setState(() => _bodyError = null);
-                }
+                setState(() {
+                  if (_bodyError != null) {
+                    _bodyError = null;
+                  }
+                });
               },
             ),
+            if (variables.isNotEmpty) ...[
+              const SizedBox(height: 16),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Variables',
+                  style: Theme.of(context).textTheme.labelLarge,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  for (final name in variables)
+                    Chip(
+                      label: Text(name),
+                      visualDensity: VisualDensity.compact,
+                    ),
+                ],
+              ),
+            ],
           ],
         ),
       ),

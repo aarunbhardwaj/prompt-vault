@@ -115,4 +115,42 @@ void main() {
     expect(notifier.updated?.body, 'Old body');
     expect(find.text('Library'), findsOneWidget);
   });
+
+  testWidgets('hides variable chips when body has no placeholders', (tester) async {
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          promptListProvider.overrideWith(_RecordingPromptListNotifier.new),
+        ],
+        child: MaterialApp.router(
+          routerConfig: _testRouter(const PromptEditorScreen()),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Variables'), findsNothing);
+  });
+
+  testWidgets('variable chips update as body text changes', (tester) async {
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          promptListProvider.overrideWith(_RecordingPromptListNotifier.new),
+        ],
+        child: MaterialApp.router(
+          routerConfig: _testRouter(const PromptEditorScreen()),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final bodyField = find.byType(TextField).at(1);
+    await tester.enterText(bodyField, 'Write about {{topic}} in {{tone}} tone.');
+    await tester.pumpAndSettle();
+
+    expect(find.text('Variables'), findsOneWidget);
+    expect(find.text('topic'), findsOneWidget);
+    expect(find.text('tone'), findsOneWidget);
+  });
 }
