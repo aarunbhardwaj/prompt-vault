@@ -1,6 +1,6 @@
 ---
 description: Flutter DoD — analyze, test, codegen, minimal diffs
-globs: "**/*.dart,pubspec.yaml"
+globs: "**/*.dart"
 alwaysApply: false
 ---
 
