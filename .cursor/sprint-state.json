@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "currentTask": "E0-T3",
-  "currentBranch": "task/E0-T3-folder-structure",
+  "currentTask": "E0-T4",
+  "currentBranch": "task/E0-T4-theme-routing",
   "completedTasks": [],
   "blocked": null,
   "humanGate": false,
-  "notes": "E0-T1 on task/E0-T1-flutter-create and E0-T2 on task/E0-T2-dependencies await merge to main (no git remote). Merge E0-T1 first, then E0-T2."
+  "notes": "Branches task/E0-T1-flutter-create, task/E0-T2-dependencies, task/E0-T3-folder-structure stack; merge to main in order when remote exists. completedTasks updates after PR merge per AGENTS.md."
 }
