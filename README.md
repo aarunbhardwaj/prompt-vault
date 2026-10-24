@@ -10,10 +10,22 @@ Local-first Flutter app for saving AI prompts, filling `{{variables}}`, and copy
 - [docs/AUTOMATION.md](docs/AUTOMATION.md) — how to run automated task flow
 - [docs/GITHUB_SETUP.md](docs/GITHUB_SETUP.md) — branch protection and auto-merge
 
-## Development (after E0-T1)
+## Android
+
+| Field | Value |
+|-------|-------|
+| Application ID | `com.drarun.prompt_vault` |
+| minSdk | 23 |
+
+## CI
+
+GitHub Actions workflow [`.github/workflows/flutter_ci.yml`](.github/workflows/flutter_ci.yml) runs on pushes to `main`, pull requests targeting `main`, and `task/**` branches: `flutter analyze` and `flutter test` (plus `build_runner` when configured).
+
+## Development
 
 ```bash
 flutter pub get
+# Code generation (freezed / json_serializable):
 dart run build_runner build --delete-conflicting-outputs
 flutter analyze
 flutter test
