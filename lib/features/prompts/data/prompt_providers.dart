@@ -3,6 +3,7 @@ import 'package:prompt_vault/core/database/app_database.dart';
 import 'package:prompt_vault/features/prompts/data/sqflite_prompt_repository.dart';
 import 'package:prompt_vault/features/prompts/domain/prompt.dart';
 import 'package:prompt_vault/features/prompts/domain/prompt_repository.dart';
+import 'package:prompt_vault/features/starter/data/starter_providers.dart';
 import 'package:sqflite/sqflite.dart';
 
 /// Opens the app SQLite database (singleton via [AppDatabase]).
@@ -30,6 +31,7 @@ class PromptListNotifier extends AsyncNotifier<List<Prompt>> {
   @override
   Future<List<Prompt>> build() async {
     await ref.watch(appDatabaseProvider.future);
+    await ref.watch(starterSeedProvider.future);
     return _repository.getAll();
   }
 
