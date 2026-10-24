@@ -9,7 +9,7 @@ Local Agent SDLC with minimal human input. Orchestration hub: [AGENTS.md](../AGE
 3. Prompt:
 
    ```text
-   @AGENTS.md Run PromptVault SDLC: execute current task or pick next from EPICS; stop only if blocked or human gate.
+   @AGENTS.md Run PromptVault SDLC: plan (Plan mode) then implement current task; stop only if blocked, human gate, or open plan questions.
    ```
 
 4. Optional continuous loop after each agent stop (local):
@@ -29,6 +29,8 @@ File: [.cursor/sprint-state.json](../.cursor/sprint-state.json) (source of truth
 | `completedTasks` | Merged task IDs |
 | `blocked` | Non-null string pauses all work until cleared |
 | `humanGate` | Must be `true` before E6 signing / store upload tasks |
+| `planFile` | Path to `.cursor/plans/tasks/<ID>.plan.md` |
+| `planStatus` | `draft` until approved; implementation requires `approved` |
 
 Human mirror (optional): [SPRINT.md](SPRINT.md).
 
@@ -45,6 +47,7 @@ Clear with `"blocked": null` to resume.
 | Skill | Path |
 |-------|------|
 | next-epic-task | `.cursor/skills/next-epic-task/SKILL.md` |
+| plan-epic-task | `.cursor/skills/plan-epic-task/SKILL.md` |
 | implement-epic-task | `.cursor/skills/implement-epic-task/SKILL.md` |
 | verify-epic-dod | `.cursor/skills/verify-epic-dod/SKILL.md` |
 | task-pr-workflow | `.cursor/skills/task-pr-workflow/SKILL.md` |
@@ -65,6 +68,7 @@ Verify in Cursor: Settings → Hooks.
 ```bash
 python3 scripts/next_task.py --pick      # next ready task ID
 python3 scripts/next_task.py --deps E2-T1 # show dependencies
+python3 scripts/check_plan_gate.py       # must pass before implement
 ./scripts/verify_task.sh                 # analyze + test (requires pubspec.yaml)
 ```
 

@@ -3,7 +3,6 @@ import 'package:prompt_vault/core/database/app_database.dart';
 import 'package:prompt_vault/core/database/prompt_table.dart';
 import 'package:prompt_vault/features/prompts/data/sqflite_prompt_repository.dart';
 import 'package:prompt_vault/features/prompts/domain/prompt.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 void main() {
