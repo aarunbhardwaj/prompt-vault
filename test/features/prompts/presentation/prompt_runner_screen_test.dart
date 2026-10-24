@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:prompt_vault/features/prompts/data/prompt_providers.dart';
@@ -90,6 +91,93 @@ void main() {
 
     expect(find.text('Hello Ada!'), findsOneWidget);
     expect(find.textContaining('{{name}}'), findsNothing);
+  });
+
+  testWidgets('copy prompt writes substituted text to clipboard', (
+    tester,
+  ) async {
+    String? clipboardText;
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(SystemChannels.platform, (message) async {
+      if (message.method == 'Clipboard.setData') {
+        final args = message.arguments as Map<dynamic, dynamic>;
+        clipboardText = args['text'] as String?;
+      }
+      return null;
+    });
+    addTearDown(() {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(SystemChannels.platform, null);
+    });
+
+    final prompt = Prompt(
+      id: 'r4',
+      title: 'Copy me',
+      body: 'Hi {{name}}',
+      createdAt: DateTime.utc(2026, 1, 1),
+      updatedAt: DateTime.utc(2026, 1, 1),
+    );
+
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          promptByIdProvider('r4').overrideWith((ref) async => prompt),
+        ],
+        child: MaterialApp(
+          home: PromptRunnerScreen(promptId: 'r4'),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.enterText(find.byType(TextField), 'Sam');
+    await tester.pump();
+    await tester.tap(find.text('Copy prompt'));
+    await tester.pumpAndSettle();
+
+    expect(clipboardText, 'Hi Sam');
+    expect(find.text('Copied to clipboard'), findsOneWidget);
+  });
+
+  testWidgets('copy prompt uses body when no variables', (tester) async {
+    String? clipboardText;
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(SystemChannels.platform, (message) async {
+      if (message.method == 'Clipboard.setData') {
+        final args = message.arguments as Map<dynamic, dynamic>;
+        clipboardText = args['text'] as String?;
+      }
+      return null;
+    });
+    addTearDown(() {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(SystemChannels.platform, null);
+    });
+
+    final prompt = Prompt(
+      id: 'r5',
+      title: 'Plain',
+      body: 'Static body text',
+      createdAt: DateTime.utc(2026, 1, 1),
+      updatedAt: DateTime.utc(2026, 1, 1),
+    );
+
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          promptByIdProvider('r5').overrideWith((ref) async => prompt),
+        ],
+        child: MaterialApp(
+          home: PromptRunnerScreen(promptId: 'r5'),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Copy prompt'));
+    await tester.pumpAndSettle();
+
+    expect(clipboardText, 'Static body text');
   });
 
   test('humanizeVariableName splits underscores', () {

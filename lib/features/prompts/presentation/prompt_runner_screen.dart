@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:prompt_vault/core/utils/prompt_template.dart';
@@ -34,6 +35,16 @@ class PromptRunnerScreen extends ConsumerStatefulWidget {
 
 class _PromptRunnerScreenState extends ConsumerState<PromptRunnerScreen> {
   final _values = <String, String>{};
+
+  Future<void> _copyPrompt(String text) async {
+    await Clipboard.setData(ClipboardData(text: text));
+    if (!mounted) {
+      return;
+    }
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text('Copied to clipboard')));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,6 +98,12 @@ class _PromptRunnerScreenState extends ConsumerState<PromptRunnerScreen> {
               SelectableText(
                 preview,
                 style: Theme.of(context).textTheme.bodyLarge,
+              ),
+              const SizedBox(height: 24),
+              FilledButton.icon(
+                onPressed: () => _copyPrompt(preview),
+                icon: const Icon(Icons.copy),
+                label: const Text('Copy prompt'),
               ),
             ],
           ),
