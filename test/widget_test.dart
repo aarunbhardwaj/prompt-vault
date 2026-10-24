@@ -39,6 +39,6 @@ void main() {
 
     await tester.tap(find.byIcon(Icons.add));
     await tester.pumpAndSettle();
-    expect(find.textContaining('Editor placeholder'), findsOneWidget);
+    expect(find.text('New prompt'), findsOneWidget);
   });
 }

@@ -67,6 +67,15 @@ final librarySearchQueryProvider = StateProvider<String>((ref) => '');
 /// When true, library shows only prompts with `isFavorite`.
 final libraryFavoritesOnlyProvider = StateProvider<bool>((ref) => false);
 
+/// Single prompt for edit screen (loads from repository).
+final promptByIdProvider = FutureProvider.family<Prompt?, String>((
+  ref,
+  id,
+) async {
+  await ref.watch(appDatabaseProvider.future);
+  return ref.read(promptRepositoryProvider).getById(id);
+});
+
 /// Prompts shown in the library (search + optional favorites filter).
 final libraryVisiblePromptsProvider = FutureProvider<List<Prompt>>((ref) async {
   final query = ref.watch(librarySearchQueryProvider).trim();
