@@ -1,0 +1,14 @@
+---
+description: PromptVault SDLC — one EPICS task per branch, sprint-state updates
+alwaysApply: true
+---
+
+# PromptVault SDLC
+
+- Backlog: [EPICS.md](../../EPICS.md). State: [.cursor/sprint-state.json](../sprint-state.json).
+- Read [AGENTS.md](../../AGENTS.md) at session start.
+- One task ID per branch (`task/<ID>-<slug>`) and one PR per task.
+- Do not skip dependencies; verify IDs are in `completedTasks` before starting.
+- Update `sprint-state.json` after merge: append completed ID, clear `currentTask`.
+- Set `blocked` with a reason instead of guessing when stuck.
+- Out-of-scope items belong to E7 in EPICS — do not implement unless the user explicitly asks.

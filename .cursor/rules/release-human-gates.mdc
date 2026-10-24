@@ -1,0 +1,17 @@
+---
+description: E6 Play Store tasks require explicit user approval
+globs: "android/**,EPICS.md"
+alwaysApply: false
+---
+
+# Release human gates
+
+E6 tasks touch signing, store assets, or production release.
+
+Before changing release signing, uploading to Play, or editing store-only secrets:
+
+1. Check `.cursor/sprint-state.json` — proceed only if `humanGate` is `true` or the user confirmed in chat.
+2. **Never** commit keystore files, `key.properties`, or passwords.
+3. Tasks that always need human coordination unless gate is set: **E6-T2**, **E6-T6**, **E6-T7**.
+
+Document keystore backup location in chat for the user, not in the repo.

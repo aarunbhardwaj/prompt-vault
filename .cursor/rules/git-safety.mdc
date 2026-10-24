@@ -1,0 +1,12 @@
+---
+description: Git safety — no force push to main, task-scoped commits
+alwaysApply: true
+---
+
+# Git safety
+
+- Do not `git push --force` (or `-f`) to `main` or `master`.
+- Do not run `git config` to change user identity or credentials.
+- Commit on `task/*` branches; merge to `main` via PR only.
+- Commit message format: `E0-T1: short imperative summary`.
+- Do not commit `.env`, keystores, or `key.properties`.

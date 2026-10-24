@@ -1,0 +1,24 @@
+---
+description: Flutter DoD — analyze, test, codegen, minimal diffs
+globs: "**/*.dart,pubspec.yaml"
+alwaysApply: false
+---
+
+# Flutter quality (EPICS global DoD)
+
+Before marking a task done:
+
+```bash
+flutter analyze
+flutter test
+```
+
+When using freezed/json_serializable:
+
+```bash
+dart run build_runner build --delete-conflicting-outputs
+```
+
+- Smallest correct diff; no drive-by refactors.
+- Unit tests for repositories, parsers, and non-trivial logic.
+- No `TODO` without a backlog reference (e.g. `E7-2`).

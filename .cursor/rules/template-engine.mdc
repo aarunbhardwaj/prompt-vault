@@ -1,0 +1,16 @@
+---
+description: Pure Dart template parser for {{variable}} placeholders
+globs: lib/core/**/*.dart
+alwaysApply: false
+---
+
+# Template engine
+
+Place prompt template logic under `lib/core/` (e.g. `core/utils/prompt_template.dart`).
+
+- **No** `package:flutter` imports in parser modules.
+- Syntax: `{{name}}` where `name` is `[a-zA-Z_][a-zA-Z0-9_]*`.
+- Provide at least:
+  - `extractVariables(String template)` — unique names, stable first-seen order
+  - `substitute(String template, Map<String, String> values)` — document empty/missing key behavior in tests
+- Cover edge cases in unit tests (repeat vars, no vars, empty string).

@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "hooks": {
+    "sessionStart": [
+      {
+        "command": ".cursor/hooks/inject-sprint-context.sh"
+      }
+    ],
+    "afterFileEdit": [
+      {
+        "command": ".cursor/hooks/format-dart.sh",
+        "matcher": "Write|TabWrite"
+      }
+    ],
+    "beforeShellExecution": [
+      {
+        "command": ".cursor/hooks/git-guard.sh",
+        "matcher": "git ",
+        "failClosed": false
+      }
+    ],
+    "stop": [
+      {
+        "command": ".cursor/hooks/continue-sdlc.sh",
+        "loop_limit": 3
+      }
+    ]
+  }
+}

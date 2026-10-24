@@ -1,0 +1,25 @@
+# Flutter
+.dart_tool/
+.packages
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+
+# Android
+**/android/.gradle/
+**/android/local.properties
+**/android/**/GeneratedPluginRegistrant.java
+**/android/key.properties
+**/*.keystore
+**/*.jks
+
+# IDE
+.idea/
+*.iml
+
+# OS
+.DS_Store
+
+# Secrets
+.env
+key.properties

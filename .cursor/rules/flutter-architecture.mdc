@@ -1,0 +1,21 @@
+---
+description: Flutter feature structure, Riverpod, repositories
+globs: lib/**/*.dart
+alwaysApply: false
+---
+
+# Flutter architecture
+
+Follow [idea.md](../../idea.md) layout:
+
+- `lib/app/` — `app.dart`, `router.dart`, `theme.dart`
+- `lib/core/` — database, utils, shared widgets (no feature UI)
+- `lib/features/<feature>/` — `data/`, `domain/`, `presentation/`
+
+Rules:
+
+- State: **Riverpod** (`ProviderScope` at root).
+- Navigation: **go_router**; routes in `app/router.dart`.
+- Data: **sqflite** behind repository interfaces in `data/`.
+- Repositories must not import Flutter widgets or `material.dart`.
+- Keep template/`{{var}}` logic in `lib/core/` as pure Dart (see template-engine rule).
