@@ -81,4 +81,50 @@ void main() {
     expect(find.text('No results'), findsOneWidget);
     expect(find.textContaining('nomatch'), findsOneWidget);
   });
+
+  testWidgets('favorites filter shows only starred prompts', (tester) async {
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          promptListProvider.overrideWith(
+            () => _TestPromptListNotifier([
+              Prompt(
+                id: '1',
+                title: 'Fav',
+                body: 'b',
+                isFavorite: true,
+                createdAt: DateTime.utc(2026, 1, 1),
+                updatedAt: DateTime.utc(2026, 1, 1),
+              ),
+              Prompt(
+                id: '2',
+                title: 'Other',
+                body: 'b',
+                createdAt: DateTime.utc(2026, 1, 1),
+                updatedAt: DateTime.utc(2026, 1, 1),
+              ),
+            ]),
+          ),
+          libraryFavoritesOnlyProvider.overrideWith((ref) => true),
+          libraryVisiblePromptsProvider.overrideWith(
+            (ref) async => [
+              Prompt(
+                id: '1',
+                title: 'Fav',
+                body: 'b',
+                isFavorite: true,
+                createdAt: DateTime.utc(2026, 1, 1),
+                updatedAt: DateTime.utc(2026, 1, 1),
+              ),
+            ],
+          ),
+        ],
+        child: const MaterialApp(home: LibraryScreen()),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Fav'), findsOneWidget);
+    expect(find.text('Other'), findsNothing);
+  });
 }
