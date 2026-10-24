@@ -1,28 +1,35 @@
 ---
 name: implement-epic-task
 description: >-
-  Implement the current EPICS task for PromptVault — DoR check, acceptance
-  criteria, minimal scope. Use when currentTask is set in sprint-state.
+  Implement the current EPICS task after an approved task plan exists. Use only
+  when planStatus is approved and check_plan_gate.py passes.
 ---
 
 # Implement epic task
 
-Implement exactly one task from [EPICS.md](../../../EPICS.md).
+Implement exactly one task from [EPICS.md](../../../EPICS.md), following the approved plan file.
+
+## Preconditions (hard gate)
+
+```bash
+python3 scripts/check_plan_gate.py
+```
+
+If this fails, run **plan-epic-task** first. **Do not write application code.**
 
 ## Steps
 
-1. Read `currentTask` from [.cursor/sprint-state.json](../../../.cursor/sprint-state.json).
-2. Find the task section in EPICS (e.g. `### E0-T1 —`).
-3. **DoR** — confirm every dependency listed in EPICS is in `completedTasks`. If not, run **next-epic-task** instead.
-4. Ensure git branch matches `currentBranch` (create from `main` if needed).
-5. Implement only what acceptance criteria require; follow [idea.md](../../../idea.md) and `.cursor/rules/`.
-6. Do not open a PR until **verify-epic-dod** passes.
+1. Read `currentTask` and open `planFile` from sprint-state.
+2. **DoR** — dependencies in `completedTasks`.
+3. Checkout `currentBranch` from latest `main`.
+4. Implement only what the plan and EPICS acceptance criteria specify.
+5. Do not open a PR until **verify-epic-dod** passes.
 
 ## Commit discipline
 
-- Prefix commits with `E0-T1:` (use actual ID).
-- One logical commit is fine for small tasks; split if review clarity helps.
+- Prefix: `E0-T1: <summary>` (use actual ID).
+- Optional first commit on branch: task plan only (`E1-T4: task plan`).
 
-## When done coding
+## When done
 
-Hand off to **verify-epic-dod**, then **task-pr-workflow**.
+**verify-epic-dod** → **task-pr-workflow**.

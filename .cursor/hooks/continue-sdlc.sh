@@ -19,8 +19,8 @@ if blocked:
     raise SystemExit(0)
 msg = (
     "PromptVault SDLC: If the current task PR is merged, update sprint-state "
-    "completedTasks, then run next-epic-task and implement the next ready EPICS "
-    "task per AGENTS.md. Stop only for humanGate (E6 signing/store) or blockers."
+    "completedTasks, then next-epic-task, then plan-epic-task (Plan mode, approved "
+    "plan file) before implement-epic-task. Stop for humanGate, blockers, or open plan questions."
 )
 print(json.dumps({"followup_message": msg}))
 PY
