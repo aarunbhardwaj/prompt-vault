@@ -1,0 +1,122 @@
+[
+  {
+    "id": "starter-writing-01",
+    "title": "Blog post outline",
+    "body": "Create a detailed outline for a blog post about {{topic}} aimed at {{audience}}. Use a {{tone}} tone.",
+    "isFavorite": false,
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "starter-writing-02",
+    "title": "Email draft",
+    "body": "Draft a professional email to {{recipient}} about {{subject}}. Keep it {{tone}} and under 200 words.",
+    "isFavorite": false,
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "starter-writing-03",
+    "title": "Social caption",
+    "body": "Write a short social media caption promoting {{product}} for {{platform}}. Include 3 relevant hashtags.",
+    "isFavorite": false,
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "starter-writing-04",
+    "title": "Summarize text",
+    "body": "Summarize the following in {{bullet_count}} bullet points at a {{reading_level}} reading level:\n\n{{text}}",
+    "isFavorite": false,
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "starter-coding-01",
+    "title": "Explain code",
+    "body": "Explain what this {{language}} code does line by line for a junior developer:\n\n{{code_snippet}}",
+    "isFavorite": false,
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "starter-coding-02",
+    "title": "Unit test ideas",
+    "body": "List edge cases and example unit tests for a function named {{function_name}} that {{behavior}}.",
+    "isFavorite": false,
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "starter-coding-03",
+    "title": "Debug helper",
+    "body": "I see this error in {{framework}}:\n\n{{error_message}}\n\nSuggest likely causes and fix steps.",
+    "isFavorite": false,
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "starter-coding-04",
+    "title": "Refactor plan",
+    "body": "Propose a step-by-step refactor for {{module_name}} to improve {{goal}} without changing public behavior.",
+    "isFavorite": false,
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "starter-learning-01",
+    "title": "Concept explainer",
+    "body": "Explain {{concept}} using analogies and one concrete example. Assume I know {{prior_knowledge}}.",
+    "isFavorite": false,
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "starter-learning-02",
+    "title": "Quiz me",
+    "body": "Ask me {{question_count}} practice questions about {{topic}}. Wait for my answers before giving feedback.",
+    "isFavorite": false,
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "starter-learning-03",
+    "title": "Study plan",
+    "body": "Create a {{days}}-day study plan to learn {{skill}} with daily tasks and milestones.",
+    "isFavorite": false,
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "starter-productivity-01",
+    "title": "Meeting agenda",
+    "body": "Draft a 30-minute meeting agenda for {{meeting_purpose}} with attendees: {{attendees}}.",
+    "isFavorite": false,
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "starter-productivity-02",
+    "title": "Task breakdown",
+    "body": "Break the project \"{{project_name}}\" into subtasks with estimates and dependencies.",
+    "isFavorite": false,
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "starter-productivity-03",
+    "title": "Decision pros and cons",
+    "body": "Compare options A and B for {{decision}}. List pros, cons, and a recommendation for {{context}}.",
+    "isFavorite": false,
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "starter-productivity-04",
+    "title": "Weekly review",
+    "body": "Guide me through a weekly review: wins, blockers, priorities for next week in {{role}} context.",
+    "isFavorite": true,
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-01-01T00:00:00.000Z"
+  }
+]
