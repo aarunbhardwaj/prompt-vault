@@ -3,9 +3,9 @@
   "currentTask": "E3-T2",
   "currentBranch": "task/E3-T2-template-parser",
   "completedTasks": ["E0-T1", "E0-T2", "E0-T3", "E0-T4", "E0-T5", "E1-T1", "E1-T2", "E1-T3", "E1-T4", "E1-T5", "E2-T1", "E2-T2", "E2-T3", "E2-T4", "E2-T5", "E3-T1"],
-  "planFile": null,
-  "planStatus": null,
+  "planFile": ".cursor/plans/tasks/E3-T2.plan.md",
+  "planStatus": "approved",
   "blocked": null,
   "humanGate": false,
-  "notes": "Next: plan-epic-task for E3-T2."
+  "notes": ""
 }
