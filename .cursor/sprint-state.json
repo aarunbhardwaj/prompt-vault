@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "currentTask": "E0-T4",
-  "currentBranch": "task/E0-T4-theme-routing",
+  "currentTask": "E0-T5",
+  "currentBranch": "task/E0-T5-git-ci-baseline",
   "completedTasks": [],
   "blocked": null,
   "humanGate": false,
-  "notes": "Branches task/E0-T1-flutter-create, task/E0-T2-dependencies, task/E0-T3-folder-structure stack; merge to main in order when remote exists. completedTasks updates after PR merge per AGENTS.md."
+  "notes": "No PR merges yet (main lacks Flutter). Stack: E0-T1..E0-T4 on task/E0-T4-theme-routing. Merge branches to main in order when remote exists, then append completedTasks."
 }
