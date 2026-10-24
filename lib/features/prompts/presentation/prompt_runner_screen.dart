@@ -49,6 +49,7 @@ class _PromptRunnerScreenState extends ConsumerState<PromptRunnerScreen> {
         }
 
         final variables = extractVariables(prompt.body);
+        final preview = substitute(prompt.body, _values);
 
         return Scaffold(
           appBar: AppBar(
@@ -73,11 +74,20 @@ class _PromptRunnerScreenState extends ConsumerState<PromptRunnerScreen> {
                     decoration: InputDecoration(
                       labelText: humanizeVariableName(name),
                     ),
-                    onChanged: (value) => _values[name] = value,
+                    onChanged: (value) {
+                      setState(() => _values[name] = value);
+                    },
                   ),
                   const SizedBox(height: 12),
                 ],
               ],
+              const SizedBox(height: 8),
+              Text('Preview', style: Theme.of(context).textTheme.titleMedium),
+              const SizedBox(height: 8),
+              SelectableText(
+                preview,
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
             ],
           ),
         );

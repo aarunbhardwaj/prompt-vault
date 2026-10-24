@@ -58,6 +58,38 @@ void main() {
 
     expect(find.text('Variables'), findsNothing);
     expect(find.byType(TextField), findsNothing);
+    expect(find.text('Preview'), findsOneWidget);
+    expect(find.text('No placeholders here.'), findsOneWidget);
+  });
+
+  testWidgets('preview updates when variable values change', (tester) async {
+    final prompt = Prompt(
+      id: 'r3',
+      title: 'Run',
+      body: 'Hello {{name}}!',
+      createdAt: DateTime.utc(2026, 1, 1),
+      updatedAt: DateTime.utc(2026, 1, 1),
+    );
+
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          promptByIdProvider('r3').overrideWith((ref) async => prompt),
+        ],
+        child: MaterialApp(
+          home: PromptRunnerScreen(promptId: 'r3'),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.textContaining('{{name}}'), findsOneWidget);
+
+    await tester.enterText(find.byType(TextField), 'Ada');
+    await tester.pump();
+
+    expect(find.text('Hello Ada!'), findsOneWidget);
+    expect(find.textContaining('{{name}}'), findsNothing);
   });
 
   test('humanizeVariableName splits underscores', () {
