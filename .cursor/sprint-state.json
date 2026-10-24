@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "currentTask": "E1-T3",
-  "currentBranch": "task/E1-T3-prompt-repository",
-  "completedTasks": ["E0-T1", "E0-T2", "E0-T3", "E0-T4", "E0-T5", "E1-T1", "E1-T2"],
+  "currentTask": "E1-T4",
+  "currentBranch": "task/E1-T4-riverpod-providers",
+  "completedTasks": ["E0-T1", "E0-T2", "E0-T3", "E0-T4", "E0-T5", "E1-T1", "E1-T2", "E1-T3"],
   "blocked": null,
   "humanGate": false,
   "notes": "Merged to main locally."
