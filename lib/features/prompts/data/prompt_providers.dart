@@ -28,7 +28,10 @@ class PromptListNotifier extends AsyncNotifier<List<Prompt>> {
   PromptRepository get _repository => ref.read(promptRepositoryProvider);
 
   @override
-  Future<List<Prompt>> build() => _repository.getAll();
+  Future<List<Prompt>> build() async {
+    await ref.watch(appDatabaseProvider.future);
+    return _repository.getAll();
+  }
 
   Future<void> refresh() async {
     state = const AsyncLoading();

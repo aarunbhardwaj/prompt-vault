@@ -1,0 +1,57 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:prompt_vault/features/prompts/data/prompt_providers.dart';
+import 'package:prompt_vault/features/prompts/domain/prompt.dart';
+import 'package:prompt_vault/features/prompts/presentation/library_screen.dart';
+
+class _TestPromptListNotifier extends PromptListNotifier {
+  _TestPromptListNotifier(this.prompts);
+
+  final List<Prompt> prompts;
+
+  @override
+  Future<List<Prompt>> build() async => prompts;
+}
+
+void main() {
+  testWidgets('empty state shows hint', (tester) async {
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          promptListProvider.overrideWith(() => _TestPromptListNotifier([])),
+        ],
+        child: const MaterialApp(home: LibraryScreen()),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('No prompts yet'), findsOneWidget);
+    expect(find.text('Tap + to add your first prompt.'), findsOneWidget);
+  });
+
+  testWidgets('renders prompt cards', (tester) async {
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          promptListProvider.overrideWith(
+            () => _TestPromptListNotifier([
+              Prompt(
+                id: 'a',
+                title: 'My prompt',
+                body: 'Body text here',
+                createdAt: DateTime.utc(2026, 1, 1),
+                updatedAt: DateTime.utc(2026, 1, 1),
+              ),
+            ]),
+          ),
+        ],
+        child: const MaterialApp(home: LibraryScreen()),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('My prompt'), findsOneWidget);
+    expect(find.text('Body text here'), findsOneWidget);
+  });
+}

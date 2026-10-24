@@ -1,17 +1,14 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:prompt_vault/features/prompts/presentation/editor_placeholder_screen.dart';
-import 'package:prompt_vault/features/prompts/presentation/library_placeholder_screen.dart';
+import 'package:prompt_vault/features/prompts/presentation/library_screen.dart';
 import 'package:prompt_vault/features/prompts/presentation/runner_placeholder_screen.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     initialLocation: '/',
     routes: [
-      GoRoute(
-        path: '/',
-        builder: (context, state) => const LibraryPlaceholderScreen(),
-      ),
+      GoRoute(path: '/', builder: (context, state) => const LibraryScreen()),
       GoRoute(
         path: '/prompt/new',
         builder: (context, state) => const EditorPlaceholderScreen(),
