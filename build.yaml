@@ -1,0 +1,13 @@
+targets:
+  $default:
+    builders:
+      freezed:
+        generate_for:
+          include:
+            - lib/features/**/*
+            - lib/core/**/*
+      json_serializable:
+        generate_for:
+          include:
+            - lib/features/**/*
+            - lib/core/**/*

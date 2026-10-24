@@ -21,6 +21,7 @@ Local-first Flutter app for saving AI prompts, filling `{{variables}}`, and copy
 
 ```bash
 flutter pub get
+# Code generation (freezed / json_serializable):
 dart run build_runner build --delete-conflicting-outputs
 flutter analyze
 flutter test
