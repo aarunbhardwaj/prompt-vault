@@ -93,6 +93,60 @@ void main() {
     expect(find.textContaining('{{name}}'), findsNothing);
   });
 
+  testWidgets('runner fills variables preview and copy', (tester) async {
+    String? clipboardText;
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(SystemChannels.platform, (message) async {
+      if (message.method == 'Clipboard.setData') {
+        final args = message.arguments as Map<dynamic, dynamic>;
+        clipboardText = args['text'] as String?;
+      }
+      return null;
+    });
+    addTearDown(() {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(SystemChannels.platform, null);
+    });
+
+    final prompt = Prompt(
+      id: 'e4t4',
+      title: 'Email',
+      body: 'Draft about {{topic}} in a {{tone}} tone for {{topic}}.',
+      createdAt: DateTime.utc(2026, 1, 1),
+      updatedAt: DateTime.utc(2026, 1, 1),
+    );
+
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          promptByIdProvider('e4t4').overrideWith((ref) async => prompt),
+        ],
+        child: MaterialApp(
+          home: PromptRunnerScreen(promptId: 'e4t4'),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final fields = find.byType(TextField);
+    await tester.enterText(fields.at(0), 'Flutter');
+    await tester.enterText(fields.at(1), 'friendly');
+    await tester.pump();
+
+    expect(
+      find.text('Draft about Flutter in a friendly tone for Flutter.'),
+      findsOneWidget,
+    );
+
+    await tester.tap(find.text('Copy prompt'));
+    await tester.pumpAndSettle();
+
+    expect(
+      clipboardText,
+      'Draft about Flutter in a friendly tone for Flutter.',
+    );
+  });
+
   testWidgets('copy prompt writes substituted text to clipboard', (
     tester,
   ) async {
