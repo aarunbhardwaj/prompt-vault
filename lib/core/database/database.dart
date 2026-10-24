@@ -1,2 +1,2 @@
-// SQLite open helper — implemented in E1-T2.
-library;
+export 'app_database.dart';
+export 'prompt_table.dart';
