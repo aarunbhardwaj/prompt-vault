@@ -127,4 +127,28 @@ void main() {
     expect(find.text('Fav'), findsOneWidget);
     expect(find.text('Other'), findsNothing);
   });
+
+  testWidgets('prompt cards are dismissible for delete', (tester) async {
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          promptListProvider.overrideWith(
+            () => _TestPromptListNotifier([
+              Prompt(
+                id: 'a',
+                title: 'Swipe me',
+                body: 'b',
+                createdAt: DateTime.utc(2026, 1, 1),
+                updatedAt: DateTime.utc(2026, 1, 1),
+              ),
+            ]),
+          ),
+        ],
+        child: const MaterialApp(home: LibraryScreen()),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.byType(Dismissible), findsOneWidget);
+  });
 }

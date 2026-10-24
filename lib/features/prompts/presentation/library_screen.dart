@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:prompt_vault/features/prompts/data/prompt_providers.dart';
+import 'package:prompt_vault/features/prompts/domain/prompt.dart';
 import 'package:prompt_vault/features/prompts/presentation/prompt_card.dart';
 
 class LibraryScreen extends ConsumerStatefulWidget {
@@ -37,6 +38,26 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
     _debounce?.cancel();
     _searchController.clear();
     ref.read(librarySearchQueryProvider.notifier).state = '';
+  }
+
+  Future<void> _deleteWithUndo(Prompt prompt) async {
+    final messenger = ScaffoldMessenger.of(context);
+    await ref.read(promptListProvider.notifier).deletePrompt(prompt.id);
+    if (!mounted) {
+      return;
+    }
+    messenger.clearSnackBars();
+    messenger.showSnackBar(
+      SnackBar(
+        content: Text('Deleted "${prompt.title}"'),
+        action: SnackBarAction(
+          label: 'Undo',
+          onPressed: () {
+            ref.read(promptListProvider.notifier).createPrompt(prompt);
+          },
+        ),
+      ),
+    );
   }
 
   @override
@@ -114,13 +135,27 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
                       const SizedBox(height: 8),
                   itemBuilder: (context, index) {
                     final prompt = prompts[index];
-                    return PromptCard(
-                      prompt: prompt,
-                      onTap: () => context.go('/prompt/${prompt.id}/run'),
-                      onEdit: () => context.go('/prompt/${prompt.id}/edit'),
-                      onToggleFavorite: () => ref
-                          .read(promptListProvider.notifier)
-                          .toggleFavorite(prompt.id),
+                    return Dismissible(
+                      key: ValueKey(prompt.id),
+                      direction: DismissDirection.endToStart,
+                      background: Container(
+                        alignment: Alignment.centerRight,
+                        padding: const EdgeInsets.only(right: 20),
+                        color: Theme.of(context).colorScheme.errorContainer,
+                        child: Icon(
+                          Icons.delete_outline,
+                          color: Theme.of(context).colorScheme.onErrorContainer,
+                        ),
+                      ),
+                      onDismissed: (_) => _deleteWithUndo(prompt),
+                      child: PromptCard(
+                        prompt: prompt,
+                        onTap: () => context.go('/prompt/${prompt.id}/run'),
+                        onEdit: () => context.go('/prompt/${prompt.id}/edit'),
+                        onToggleFavorite: () => ref
+                            .read(promptListProvider.notifier)
+                            .toggleFavorite(prompt.id),
+                      ),
                     );
                   },
                 );
