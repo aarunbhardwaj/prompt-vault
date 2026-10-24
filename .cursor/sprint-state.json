@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "currentTask": "E0-T1",
-  "currentBranch": "task/E0-T1-flutter-create",
+  "currentTask": "E0-T3",
+  "currentBranch": "task/E0-T3-folder-structure",
   "completedTasks": [],
   "blocked": null,
   "humanGate": false,
-  "notes": ""
+  "notes": "E0-T1 on task/E0-T1-flutter-create and E0-T2 on task/E0-T2-dependencies await merge to main (no git remote). Merge E0-T1 first, then E0-T2."
 }
