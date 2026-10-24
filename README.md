@@ -17,6 +17,10 @@ Local-first Flutter app for saving AI prompts, filling `{{variables}}`, and copy
 | Application ID | `com.drarun.prompt_vault` |
 | minSdk | 23 |
 
+## CI
+
+GitHub Actions workflow [`.github/workflows/flutter_ci.yml`](.github/workflows/flutter_ci.yml) runs on pushes to `main`, pull requests targeting `main`, and `task/**` branches: `flutter analyze` and `flutter test` (plus `build_runner` when configured).
+
 ## Development
 
 ```bash

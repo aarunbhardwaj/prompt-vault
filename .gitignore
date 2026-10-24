@@ -4,6 +4,9 @@
 build/
 .flutter-plugins
 .flutter-plugins-dependencies
+.pub-cache/
+pubspec_overrides.yaml
+**/doc/api/
 
 # Android
 **/android/.gradle/
