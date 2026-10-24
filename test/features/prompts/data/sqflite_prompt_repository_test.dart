@@ -56,6 +56,20 @@ void main() {
     expect(all.map((e) => e.id).toList(), ['2', '1']);
   });
 
+  test('update changes stored prompt', () async {
+    await repository.create(sample());
+    final updated = sample(title: 'Updated').copyWith(
+      updatedAt: DateTime.utc(2026, 3, 1),
+    );
+    await repository.update(updated);
+    expect(await repository.getById('1'), updated);
+  });
+
+  test('search returns empty when no match', () async {
+    await repository.create(sample(title: 'Alpha'));
+    expect(await repository.search('zzzzz'), isEmpty);
+  });
+
   test('search matches title or body case-insensitively', () async {
     await repository.create(sample(title: 'Flutter', body: 'x'));
     await repository.create(sample(id: '2', title: 'x', body: 'Riverpod'));
