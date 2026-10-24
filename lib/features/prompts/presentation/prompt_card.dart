@@ -7,11 +7,13 @@ class PromptCard extends StatelessWidget {
     required this.prompt,
     required this.onTap,
     required this.onEdit,
+    required this.onToggleFavorite,
   });
 
   final Prompt prompt;
   final VoidCallback onTap;
   final VoidCallback onEdit;
+  final VoidCallback onToggleFavorite;
 
   @override
   Widget build(BuildContext context) {
@@ -44,11 +46,17 @@ class PromptCard extends StatelessWidget {
                   ],
                 ),
               ),
-              Icon(
-                prompt.isFavorite ? Icons.star : Icons.star_border,
-                color: prompt.isFavorite
-                    ? Theme.of(context).colorScheme.primary
-                    : null,
+              IconButton(
+                icon: Icon(
+                  prompt.isFavorite ? Icons.star : Icons.star_border,
+                  color: prompt.isFavorite
+                      ? Theme.of(context).colorScheme.primary
+                      : null,
+                ),
+                tooltip: prompt.isFavorite
+                    ? 'Remove from favorites'
+                    : 'Add to favorites',
+                onPressed: onToggleFavorite,
               ),
               PopupMenuButton<String>(
                 onSelected: (value) {

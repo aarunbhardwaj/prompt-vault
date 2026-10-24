@@ -64,11 +64,23 @@ class PromptListNotifier extends AsyncNotifier<List<Prompt>> {
 /// Current library search text (debounced in UI before update).
 final librarySearchQueryProvider = StateProvider<String>((ref) => '');
 
-/// Prompts shown in the library (full list or search results).
+/// When true, library shows only prompts with `isFavorite`.
+final libraryFavoritesOnlyProvider = StateProvider<bool>((ref) => false);
+
+/// Prompts shown in the library (search + optional favorites filter).
 final libraryVisiblePromptsProvider = FutureProvider<List<Prompt>>((ref) async {
   final query = ref.watch(librarySearchQueryProvider).trim();
+  final favoritesOnly = ref.watch(libraryFavoritesOnlyProvider);
+
+  final List<Prompt> prompts;
   if (query.isEmpty) {
-    return ref.watch(promptListProvider.future);
+    prompts = await ref.watch(promptListProvider.future);
+  } else {
+    prompts = await ref.read(promptListProvider.notifier).search(query);
   }
-  return ref.read(promptListProvider.notifier).search(query);
+
+  if (favoritesOnly) {
+    return prompts.where((p) => p.isFavorite).toList();
+  }
+  return prompts;
 });

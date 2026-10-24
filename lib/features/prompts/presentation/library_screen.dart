@@ -44,6 +44,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
     final allAsync = ref.watch(promptListProvider);
     final visibleAsync = ref.watch(libraryVisiblePromptsProvider);
     final searchQuery = ref.watch(librarySearchQueryProvider);
+    final favoritesOnly = ref.watch(libraryFavoritesOnlyProvider);
 
     return Scaffold(
       appBar: AppBar(title: const Text('PromptVault')),
@@ -68,6 +69,20 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
               },
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: FilterChip(
+                label: const Text('Favorites only'),
+                selected: favoritesOnly,
+                onSelected: (selected) {
+                  ref.read(libraryFavoritesOnlyProvider.notifier).state =
+                      selected;
+                },
+              ),
+            ),
+          ),
           Expanded(
             child: visibleAsync.when(
               data: (prompts) {
@@ -82,6 +97,10 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
 
                 if (prompts.isEmpty && searchQuery.trim().isNotEmpty) {
                   return _NoSearchResultsState(query: searchQuery.trim());
+                }
+
+                if (prompts.isEmpty && favoritesOnly) {
+                  return const _NoFavoritesState();
                 }
 
                 if (prompts.isEmpty) {
@@ -99,6 +118,9 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
                       prompt: prompt,
                       onTap: () => context.go('/prompt/${prompt.id}/run'),
                       onEdit: () => context.go('/prompt/${prompt.id}/edit'),
+                      onToggleFavorite: () => ref
+                          .read(promptListProvider.notifier)
+                          .toggleFavorite(prompt.id),
                     );
                   },
                 );
@@ -140,6 +162,40 @@ class _LibraryEmptyState extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               'Tap + to add your first prompt.',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _NoFavoritesState extends StatelessWidget {
+  const _NoFavoritesState();
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.star_border,
+              size: 56,
+              color: Theme.of(context).colorScheme.outline,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'No favorites yet',
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Tap the star on a prompt to favorite it.',
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyMedium,
             ),
