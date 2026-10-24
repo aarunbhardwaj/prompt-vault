@@ -10,7 +10,14 @@ Local-first Flutter app for saving AI prompts, filling `{{variables}}`, and copy
 - [docs/AUTOMATION.md](docs/AUTOMATION.md) — how to run automated task flow
 - [docs/GITHUB_SETUP.md](docs/GITHUB_SETUP.md) — branch protection and auto-merge
 
-## Development (after E0-T1)
+## Android
+
+| Field | Value |
+|-------|-------|
+| Application ID | `com.drarun.prompt_vault` |
+| minSdk | 23 |
+
+## Development
 
 ```bash
 flutter pub get
