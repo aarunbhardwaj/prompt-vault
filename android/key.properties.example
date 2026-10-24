@@ -1,0 +1,5 @@
+# Copy to android/key.properties (gitignored). Never commit the real file or .jks.
+storePassword=
+keyPassword=
+keyAlias=upload
+storeFile=/absolute/path/to/upload.jks
