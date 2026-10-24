@@ -54,4 +54,31 @@ void main() {
     expect(find.text('My prompt'), findsOneWidget);
     expect(find.text('Body text here'), findsOneWidget);
   });
+
+  testWidgets('shows empty search results state', (tester) async {
+    final sample = Prompt(
+      id: 'a',
+      title: 'My prompt',
+      body: 'Body',
+      createdAt: DateTime.utc(2026, 1, 1),
+      updatedAt: DateTime.utc(2026, 1, 1),
+    );
+
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          promptListProvider.overrideWith(
+            () => _TestPromptListNotifier([sample]),
+          ),
+          librarySearchQueryProvider.overrideWith((ref) => 'nomatch'),
+          libraryVisiblePromptsProvider.overrideWith((ref) async => []),
+        ],
+        child: const MaterialApp(home: LibraryScreen()),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('No results'), findsOneWidget);
+    expect(find.textContaining('nomatch'), findsOneWidget);
+  });
 }

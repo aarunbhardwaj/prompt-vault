@@ -60,3 +60,15 @@ class PromptListNotifier extends AsyncNotifier<List<Prompt>> {
 
   Future<List<Prompt>> search(String query) => _repository.search(query);
 }
+
+/// Current library search text (debounced in UI before update).
+final librarySearchQueryProvider = StateProvider<String>((ref) => '');
+
+/// Prompts shown in the library (full list or search results).
+final libraryVisiblePromptsProvider = FutureProvider<List<Prompt>>((ref) async {
+  final query = ref.watch(librarySearchQueryProvider).trim();
+  if (query.isEmpty) {
+    return ref.watch(promptListProvider.future);
+  }
+  return ref.read(promptListProvider.notifier).search(query);
+});
