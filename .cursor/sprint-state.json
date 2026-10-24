@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "currentTask": "E0-T5",
-  "currentBranch": "task/E0-T5-git-ci-baseline",
-  "completedTasks": [],
+  "currentTask": "E1-T1",
+  "currentBranch": "task/E1-T1-prompt-model",
+  "completedTasks": ["E0-T1", "E0-T2", "E0-T3", "E0-T4", "E0-T5"],
   "blocked": null,
   "humanGate": false,
-  "notes": "No PR merges yet (main lacks Flutter). Stack: E0-T1..E0-T4 on task/E0-T4-theme-routing. Merge branches to main in order when remote exists, then append completedTasks."
+  "notes": "E0 foundation merged to main locally (no remote PR)."
 }
