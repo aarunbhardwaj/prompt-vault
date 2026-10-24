@@ -76,6 +76,33 @@ class _PromptEditorScreenState extends ConsumerState<PromptEditorScreen> {
     }
   }
 
+  Future<void> _confirmDelete() async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Delete prompt?'),
+        content: const Text('This cannot be undone.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: const Text('Delete'),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true || !mounted) {
+      return;
+    }
+    await ref.read(promptListProvider.notifier).deletePrompt(widget.promptId!);
+    if (mounted) {
+      context.go('/');
+    }
+  }
+
   Future<void> _save() async {
     final title = _titleController.text.trim();
     final body = _bodyController.text.trim();
@@ -178,7 +205,15 @@ class _PromptEditorScreenState extends ConsumerState<PromptEditorScreen> {
             icon: const Icon(Icons.arrow_back),
             onPressed: _leaveEditor,
           ),
-          actions: [TextButton(onPressed: _save, child: const Text('Save'))],
+          actions: [
+            if (widget.isEdit)
+              IconButton(
+                icon: const Icon(Icons.delete_outline),
+                tooltip: 'Delete prompt',
+                onPressed: _confirmDelete,
+              ),
+            TextButton(onPressed: _save, child: const Text('Save')),
+          ],
         ),
         body: ListView(
           padding: const EdgeInsets.all(16),

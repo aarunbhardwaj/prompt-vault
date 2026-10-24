@@ -9,6 +9,7 @@ import 'package:prompt_vault/features/prompts/presentation/prompt_editor_screen.
 class _RecordingPromptListNotifier extends PromptListNotifier {
   Prompt? created;
   Prompt? updated;
+  String? deletedId;
 
   @override
   Future<List<Prompt>> build() async => [];
@@ -21,6 +22,11 @@ class _RecordingPromptListNotifier extends PromptListNotifier {
   @override
   Future<void> updatePrompt(Prompt prompt) async {
     updated = prompt;
+  }
+
+  @override
+  Future<void> deletePrompt(String id) async {
+    deletedId = id;
   }
 }
 
@@ -113,6 +119,58 @@ void main() {
 
     expect(notifier.updated?.title, 'New title');
     expect(notifier.updated?.body, 'Old body');
+    expect(find.text('Library'), findsOneWidget);
+  });
+
+  testWidgets('create mode has no delete action', (tester) async {
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          promptListProvider.overrideWith(_RecordingPromptListNotifier.new),
+        ],
+        child: MaterialApp.router(
+          routerConfig: _testRouter(const PromptEditorScreen()),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.byIcon(Icons.delete_outline), findsNothing);
+  });
+
+  testWidgets('edit delete confirms and removes prompt', (tester) async {
+    final existing = Prompt(
+      id: 'del-1',
+      title: 'Remove me',
+      body: 'Body',
+      createdAt: DateTime.utc(2026, 1, 1),
+      updatedAt: DateTime.utc(2026, 1, 1),
+    );
+    final notifier = _RecordingPromptListNotifier();
+
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          promptListProvider.overrideWith(() => notifier),
+          promptByIdProvider('del-1').overrideWith((ref) async => existing),
+        ],
+        child: MaterialApp.router(
+          routerConfig: _testRouter(
+            const PromptEditorScreen(promptId: 'del-1'),
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byIcon(Icons.delete_outline));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Delete prompt?'), findsOneWidget);
+    await tester.tap(find.text('Delete').last);
+    await tester.pumpAndSettle();
+
+    expect(notifier.deletedId, 'del-1');
     expect(find.text('Library'), findsOneWidget);
   });
 
