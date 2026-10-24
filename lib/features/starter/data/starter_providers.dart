@@ -21,3 +21,15 @@ final starterSeedProvider = FutureProvider<void>((ref) async {
     loadPrompts: loadStarterPromptsFromAsset,
   );
 });
+
+/// Restores missing starter prompts from the asset bundle (by id).
+Future<int> restoreStarterPromptsFromAsset(WidgetRef ref) async {
+  await ref.watch(appDatabaseProvider.future);
+  final repository = ref.read(promptRepositoryProvider);
+  final count = await restoreStarterPrompts(
+    repository: repository,
+    loadPrompts: loadStarterPromptsFromAsset,
+  );
+  ref.invalidate(promptListProvider);
+  return count;
+}

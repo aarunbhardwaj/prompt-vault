@@ -68,7 +68,16 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
     final favoritesOnly = ref.watch(libraryFavoritesOnlyProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('PromptVault')),
+      appBar: AppBar(
+        title: const Text('PromptVault'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings_outlined),
+            tooltip: 'Settings',
+            onPressed: () => context.go('/settings'),
+          ),
+        ],
+      ),
       body: Column(
         children: [
           Padding(

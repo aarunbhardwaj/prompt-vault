@@ -71,6 +71,27 @@ void main() {
     expect(await repository.getAll(), hasLength(1));
   });
 
+  test('restoreStarterPrompts adds only missing ids', () async {
+    await repository.create(sampleStarters.first);
+
+    final imported = await restoreStarterPrompts(
+      repository: repository,
+      loadPrompts: () async => [
+        ...sampleStarters,
+        Prompt(
+          id: 'starter-2',
+          title: 'B',
+          body: 'b',
+          createdAt: DateTime.utc(2026, 1, 1),
+          updatedAt: DateTime.utc(2026, 1, 1),
+        ),
+      ],
+    );
+
+    expect(imported, 1);
+    expect(await repository.getAll(), hasLength(2));
+  });
+
   test('importStarterPrompts skips existing ids', () async {
     await repository.create(sampleStarters.first);
     await importStarterPrompts(repository, sampleStarters);

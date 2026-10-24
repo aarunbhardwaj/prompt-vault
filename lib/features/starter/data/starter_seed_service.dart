@@ -31,3 +31,20 @@ Future<void> runFirstLaunchSeed({
   await importStarterPrompts(repository, prompts);
   await prefs.setBool(starterSeededPrefKey, true);
 }
+
+/// Re-imports bundled starters; skips prompts whose id already exists.
+Future<int> restoreStarterPrompts({
+  required PromptRepository repository,
+  required Future<List<Prompt>> Function() loadPrompts,
+}) async {
+  final prompts = await loadPrompts();
+  var imported = 0;
+  for (final prompt in prompts) {
+    final existing = await repository.getById(prompt.id);
+    if (existing == null) {
+      await repository.create(prompt);
+      imported++;
+    }
+  }
+  return imported;
+}
