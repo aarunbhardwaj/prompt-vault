@@ -22,6 +22,10 @@ Local-first Flutter app for saving AI prompts, filling `{{variables}}`, and copy
 
 Source: [`docs/privacy/index.html`](docs/privacy/index.html). After merging, enable **Settings → Pages → Build from branch → `main` → `/docs`**. Use the privacy URL above in Google Play Console.
 
+### Play Store listing (E6-T5)
+
+Copy, data safety, content rating, and screenshot guide: [`docs/play-store/CHECKLIST.md`](docs/play-store/CHECKLIST.md).
+
 ## CI
 
 GitHub Actions workflow [`.github/workflows/flutter_ci.yml`](.github/workflows/flutter_ci.yml) runs on pushes to `main`, pull requests targeting `main`, and `task/**` branches: `flutter analyze` and `flutter test` (plus `build_runner` when configured).

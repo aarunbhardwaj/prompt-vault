@@ -26,3 +26,10 @@ pubspec_overrides.yaml
 # Secrets
 .env
 key.properties
+
+# Play Store binaries (see assets/store/README.md)
+assets/store/screenshots/*
+!assets/store/screenshots/.gitkeep
+assets/store/feature_graphic.png
+assets/store/*.jpg
+assets/store/*.jpeg
