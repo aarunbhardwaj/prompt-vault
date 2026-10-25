@@ -16,6 +16,11 @@ Local-first Flutter app for saving AI prompts, filling `{{variables}}`, and copy
 |-------|-------|
 | Application ID | `com.drarun.prompt_vault` |
 | minSdk | 23 |
+| Privacy policy | [https://aarunbhardwaj.github.io/prompt-vault/privacy/](https://aarunbhardwaj.github.io/prompt-vault/privacy/) |
+
+### Privacy policy (GitHub Pages)
+
+Source: [`docs/privacy/index.html`](docs/privacy/index.html). After merging, enable **Settings → Pages → Build from branch → `main` → `/docs`**. Use the privacy URL above in Google Play Console.
 
 ## CI
 
