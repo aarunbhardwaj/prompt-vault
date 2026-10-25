@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:prompt_vault/core/constants/legal_urls.dart';
 import 'package:prompt_vault/features/starter/data/starter_providers.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -35,6 +37,28 @@ class SettingsScreen extends ConsumerWidget {
               ScaffoldMessenger.of(
                 context,
               ).showSnackBar(SnackBar(content: Text(message)));
+            },
+          ),
+          ListTile(
+            title: const Text('Privacy policy'),
+            subtitle: const Text('How PromptVault handles your data'),
+            trailing: const Icon(Icons.open_in_new),
+            onTap: () async {
+              final uri = Uri.parse(kPrivacyPolicyUrl);
+              final opened = await launchUrl(
+                uri,
+                mode: LaunchMode.externalApplication,
+              );
+              if (!context.mounted) {
+                return;
+              }
+              if (!opened) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Could not open privacy policy link'),
+                  ),
+                );
+              }
             },
           ),
         ],
