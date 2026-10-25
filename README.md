@@ -26,6 +26,14 @@ Source: [`docs/privacy/index.html`](docs/privacy/index.html). After merging, ena
 
 Copy, data safety, content rating, and screenshot guide: [`docs/play-store/CHECKLIST.md`](docs/play-store/CHECKLIST.md).
 
+### Release App Bundle (E6-T3)
+
+```bash
+./scripts/build_release.sh
+```
+
+See [`docs/release/BUILD.md`](docs/release/BUILD.md).
+
 ## CI
 
 GitHub Actions workflow [`.github/workflows/flutter_ci.yml`](.github/workflows/flutter_ci.yml) runs on pushes to `main`, pull requests targeting `main`, and `task/**` branches: `flutter analyze` and `flutter test` (plus `build_runner` when configured).
