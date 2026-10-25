@@ -27,6 +27,9 @@ pubspec_overrides.yaml
 .env
 key.properties
 
+# Release bundles (E6-T3; see docs/release/BUILD.md)
+dist/
+
 # Play Store binaries (see assets/store/README.md)
 assets/store/screenshots/*
 !assets/store/screenshots/.gitkeep
